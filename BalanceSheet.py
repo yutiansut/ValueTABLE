@@ -1,44 +1,12 @@
-class NetValue(object):
-    '''
-    NetValue类包含三个变量，总净值，总份额和单位净值
-    NetValue包含一个成员函数，赎回操作对总份额和总净值的修改
-    '''
-    def __init__(self,total_value,share):
-        self.total_value = total_value
-        self.share = share+0.0
-        self.unit_value = self.total_value/self.share
 
-    #赎回操作，赎回后扣减相应份额和总净值
-    def redemption(self,redeem_share):
-        self.share = self.share- redeem_share
-        self.total_value = self.unit_value *self.share
-
-class Cost_rate(object):
-    '''
-    Cost类包含三个变量
-    托管费费率，管理费费率和服务费费率
-    NetValue包含一个成员函数，赎回操作对总份额和总净值的修改
-    '''
-    def __init__(self,tgf_rate,glf_rate,fwf_rate):
-        self.tgf_rate = tgf_rate
-        self.glf_rate = glf_rate
-        self.fwf_rate = fwf_rate
-
-class Liability(object):
-    def __init__(self):
-        self.etf =
-        self.swap =
-class Asset(object):
-    def __init__(self):
-        self.stock =
-        self.future =
-        self.
+import somefunction
+from someclass import NetValue, Cost_rate, Liability, Asset
 
 # 定义一个估值表类
 class BalanceSheet(object):
     #下面用BS作为BalanceSheet的简称
 
-    def __init__(self,date,kind,stock,future,etf,swap,tgf_rate,glf_rate,fwf_rate,net_value =NetValue(0,0,0)):
+    def __init__(self,date,kind,stock,future,etf,swap,tgf_rate,glf_rate,fwf_rate,net_value =NetValue(0,0)):
         self.date = date
         self.kind = kind
         self.asset = Asset(stock,future)
@@ -48,10 +16,25 @@ class BalanceSheet(object):
 
     #输入昨天的BalanceSheet和今天的交易明细，输出今天的BalanceSheet
     def calc_BS( BS_yestoday, detail_today ):
+        #首先要检查两天的内容是否只间隔一个工作日，如果并非只间隔一个工作日，则需提醒运行该函数的人
+        #由于电脑无法判别清明中秋等传统假期，因此提醒之后仍然需要运行函数者自行判断
+        #因此电脑仅会提示，但无论何种情况都会计算出结果
+        if BS_yestoday.date == somefunction.getlastweekday(detail_today.date):
+            pass
+        else:
+            print('信息并不来自两个连续的工作日 ')
 
         return
 
     #修改份额
+    def correct_share(self):
+        return
+
     #计算业绩报酬
+    def calc_return(self):
+        return
     #打印
+    def print_table(self):
+        return
+
     #和表格比对
