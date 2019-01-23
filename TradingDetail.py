@@ -17,7 +17,10 @@ def total_calc(data_path):
     c = {}
     for i in ['股票账户', '期货账户', 'ETF', '场外收益互换']:
         try:
-            a[i] = pd.read_excel(data_path, i)
+            if i=='股票账户':
+                a[i] = pd.read_excel(data_path, i,os.getcwd() + os.sep + 'stock.xlsx',converters ={'股票代码':str} )
+            else:
+                a[i] = pd.read_excel(data_path, )
         except:
             ValueError
         else:
@@ -39,18 +42,18 @@ def total_calc(data_path):
 # 股票计算的两个输入均为DataFrame格式，stock_data一定要包括三列：股票代码，持仓数量，和收盘价，否则会报错，若列名与实际有出入，可以修改函数中的中文部分
 # 函数将返回一个计算资产价格后的表，一个总的股票资产总额,和一个股票资产总额+账户余额总额
 def stock_summary(df_stock, account_data):
-
+    df_stock['股票代码'] = df_stock['股票代码'].apply(zfill(5))
     df_stock['市值'] = df_stock.持仓数量 * df_stock.收盘价
     df_stock['成本'] = df_stock['单位成本'] * df_stock['持仓数量']
     df_stock['估值增值'] = df_stock['成本'] - df_stock['市值']
-    account_data['持仓市值'] = sum(data['市值'])
+    account_data['持仓市值'] = sum(df_stock['市值'])
     account_data['总资产'] = account_data['持仓市值'] + int(account_data.可用资金)
     # 接着对stock按照股票代码进行分类，
-    df_stock['类别'] = df_stock['股票代码'].apply(lambda str1: {'6': 'H', '3': 'C', '0': 'S'}[str1[0]])
-    df_stockgroup = df_stock.groupby(['类别'])
+    #df_stock['类别'] = df_stock['股票代码'].apply(lambda str1: {'6': 'H', '3': 'C', '0': 'S'}[str1[0]])
+    #df_stockgroup = df_stock.groupby(['类别'])
     # 分类之后，对每一类合计成本和 市值
-    self.stockgroupsum = df_stockgroup['成本', '市值 '].sum()
-    self.stock = df_stockgroup
+    #self.stockgroupsum = df_stockgroup['成本', '市值 '].sum()
+    ##self.stock = df_stockgroup
     data = df_stock.copy()
     return data, account_data
 
